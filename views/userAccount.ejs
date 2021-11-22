@@ -1,0 +1,197 @@
+<%- include("partials/header") %>
+  <div class="container">
+
+    <div class="page-header text-center">
+      <h1>You are on your way to earning! </h1>
+      <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+    </div>
+
+    <div class="row">
+
+      <!-- LOCAL INFORMATION -->
+      <div class="col-sm-6">
+        <div class="well">
+          <h3><span class="fa fa-user"></span> Hello There</h3>
+
+          <!--creating a spot to show the data  -->
+          <% if (user.local.email) { %>
+            <p>
+              <strong>id</strong>: <%= user._id %><br>
+                <strong>email</strong>: <%= user.local.email %><br>
+                  <strong> Earned Points</strong>: <%= user.points %><br>
+            </p>
+
+            <a href="/unlink/local" class="btn btn-default">Unlink</a>
+            <% } else { %>
+              <a href="/connect/local" class="btn btn-default">Connect Local</a>
+              <% } %>
+
+        </div>
+      </div>
+
+      <!-- <div class="col-sm-6">
+          <h3>Messages</h3>
+          <ul class="messages">
+          <% for(var i=0; i<messages.length; i++) {%>
+            <li class="message">
+              <span><%= messages[i].name %></span>
+              <span><%= messages[i].msg %></span>
+              <span><%= messages[i].thumbUp %></span>
+              <span><i class="fa fa-thumbs-up" aria-hidden="true"></i></span>
+              <span><i class="fa fa-thumbs-down" aria-hidden="true"></i></span>
+              <span><i class="fa fa-trash" aria-hidden="true"></i></span>
+            </li>
+          <% } %>
+          </ul>
+
+          <h2>Add a message</h2>
+        <% if (user.local.email) { %>
+          <form action="/messages" method="POST">
+            <input type="text" value="<%= user.local.email %>" name="name">
+            <input type="text" placeholder="message" name="msg">
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+        <% } %> -->
+
+    </div>
+    <div id="reader" width="600px"></div>
+
+    <style>
+      /* In order to place the tracking correctly */
+      /* canvas.drawing,
+            canvas.drawingBuffer {
+                position: absolute;
+                left: 0;
+                top: 0;
+            } */
+    </style>
+    <div id="scanner-container"></div>
+    <input type="button" id="btn" value="Start/Stop the scanner" />
+    <span id='barCode'>barcode</span>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.js"></script>
+
+
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+    <!-- <script src="https://serratus.github.io/quaggaJS/examples/js/quagga.min.js"></script> -->
+
+    <script src="https://kit.fontawesome.com/c0e668a8ad.js" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+    <!-- <script>
+      var _scannerIsRunning = false;
+
+      function startScanner() {
+        console.log("init button")
+        Quagga.init({
+          inputStream: {
+            name: "Live",
+            type: "LiveStream",
+            constraints: {
+              width: 640,
+              height: 480,
+              facingMode: "environment"
+            },
+            numberOfWorkers: navigator.hardwareConcurrency,
+            target: '#scanner-container',
+          },
+          locate: true,
+          decoder: {
+            readers: [
+              "code_128_reader",
+              "upc_reader",
+              "upc_e_reader",
+
+            ],
+
+            debug: {
+              drawBoundingBox: true,
+              drawScanline: true,
+              showFrequency: true,
+              showPattern: true,
+
+              showCanvas: true,
+              showPatches: true,
+              showFoundPatches: true,
+              showSkeleton: true,
+              showLabels: true,
+              showPatchLabels: true,
+              showRemainingPatchLabels: true,
+              boxFromPatches: {
+                showTransformed: true,
+                showTransformedBox: true,
+                showBB: true
+              }
+            }
+          },
+
+        }, function (err) {
+          if (err) {
+            console.log("err from startScanner", err);
+            return
+          }
+
+          console.log("Initialization finished. Ready to start");
+          Quagga.start();
+
+          // Set flag to is running
+          _scannerIsRunning = true;
+        });
+        Quagga.onProcessed(function (result) {
+          var drawingCtx = Quagga.canvas.ctx.overlay,
+            drawingCanvas = Quagga.canvas.dom.overlay;
+
+          if (result) {
+            if (result.boxes) {
+              drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+              result.boxes.filter(function (box) {
+                return box !== result.box;
+              }).forEach(function (box) {
+                Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, { color: "green", lineWidth: 2 });
+              });
+            }
+
+            if (result.box) {
+              Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, { color: "#00F", lineWidth: 2 });
+            }
+
+            if (result.codeResult && result.codeResult.code) {
+              Quagga.ImageDebug.drawPath(result.line, { x: 'x', y: 'y' }, drawingCtx, { color: 'red', lineWidth: 3 });
+            }
+          }
+        });
+        Quagga.onDetected(function (result) {
+          console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
+          document.getElementById('barCode').innerText = result.codeResult.code
+          fetch('barCode', {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+
+              barCode: result.codeResult.code
+            })
+          })
+            .then(response => {
+              if (response.ok) return response.json()
+            })
+            .then(data => {
+              console.log("barcode sent to server");
+              console.log("response from server", data);
+              // window.location.reload(true)
+            })
+        });
+
+        // Start/stop scanner
+
+      }
+      document.getElementById("btn").addEventListener("click", function () {
+        if (_scannerIsRunning) {
+          Quagga.stop();
+        } else {
+          startScanner();
+        }
+      }, false);
+    </script> -->
+    </body>
+
+    </html>
