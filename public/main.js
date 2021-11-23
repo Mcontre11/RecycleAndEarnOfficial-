@@ -1,3 +1,6 @@
+let barCode = ''
+let QRcode = ''
+document.getElementById('submitDeposit').style.display='none'
 var config = { 
   fps: 10,
   qrbox: {width: 250, height: 250},
@@ -6,20 +9,13 @@ var config = {
   // mebjas@/html5-qrcode/src/experimental-features.ts
  
 };
-
-// import {Html5QrcodeScanner} from "html5-qrcode"
-function onScanSuccess(decodedText, decodedResult) {
-  // handle the scanned code as you like, for example:
-  console.log(`Code matched = ${decodedText}`, decodedResult);
-
-  // HERE: show dialog to user: "Thank you, we are processing your request."
-  // AND MAYBE ALSO: Disable the QR code scanner
-
+function sendDeposit(){
   fetch('QRcode', {
     method: 'post',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
-      QRcode: decodedText
+      QRcode: QRcode,
+       barCode : barCode
     })
   })
   .then(response => {
@@ -37,6 +33,19 @@ function onScanSuccess(decodedText, decodedResult) {
     // window.location.reload(true)
   })
 }
+
+// import {Html5QrcodeScanner} from "html5-qrcode"
+function onScanSuccess(decodedText, decodedResult) {
+  // handle the scanned code as you like, for example:
+  console.log(`Code matched = ${decodedText}`, decodedResult);
+  QRcode = decodedText
+  document.getElementById('scannedQRcode').innerText = decodedText
+  // if we have a qr code and the barcode then we can unhide the button to submit deposit 
+  if(QRcode && barCode){
+    document.getElementById('submitDeposit').style.display='block'
+  }
+}
+
 // .then (res => {
 //   if {onScanSuccess.true} console.log(success)
 // })
@@ -62,10 +71,16 @@ var config = {
 
 };
 
-// barcode scanner 
+// Barcode scanner 
 var _scannerIsRunning = false;
-
-      function startScanner() {
+// we assign an empty value when we start the scanner so we can tell when they get both the QR code and barcode 
+// we have the button hidden untill both are scanned 
+      function startScanner(){
+        document.getElementById('submitDeposit').style.display='none'
+        barCode = ''
+        QRcode = ''
+        document.getElementById('scannedBarCode').innerText = ''
+        document.getElementById('scannedQRcode').innerText = ''
         console.log("init button")
         Quagga.init({
           inputStream: {
@@ -146,23 +161,13 @@ var _scannerIsRunning = false;
         });
         Quagga.onDetected(function (result) {
           console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
-          document.getElementById('barCode').innerText = result.codeResult.code
-          fetch('barCode', {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-
-              barCode: result.codeResult.code
-            })
-          })
-            .then(response => {
-              if (response.ok) return response.json()
-            })
-            .then(data => {
-              console.log("barcode sent to server");
-              console.log("response from server", data);
-              // window.location.reload(true)
-            })
+          document.getElementById('scannedBarCode').innerText = result.codeResult.code
+          barCode = result.codeResult.code
+          if(QRcode && barCode){
+            document.getElementById('submitDeposit').style.display='block'
+          }
+         
+          
         });
 
         // Start/stop scanner

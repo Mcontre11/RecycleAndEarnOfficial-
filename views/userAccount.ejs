@@ -14,45 +14,20 @@
           <h3><span class="fa fa-user"></span> Hello There</h3>
 
           <!--creating a spot to show the data  -->
-          <% if (user.local.email) { %>
+          <% if (user) { %>
             <p>
               <strong>id</strong>: <%= user._id %><br>
                 <strong>email</strong>: <%= user.local.email %><br>
-                  <strong> Earned Points</strong>: <%= user.points %><br>
+                  <strong> Earned Points</strong>: <%= user.EarnedPoints %><br>
             </p>
 
-            <a href="/unlink/local" class="btn btn-default">Unlink</a>
-            <% } else { %>
-              <a href="/connect/local" class="btn btn-default">Connect Local</a>
+     
               <% } %>
 
         </div>
       </div>
 
-      <!-- <div class="col-sm-6">
-          <h3>Messages</h3>
-          <ul class="messages">
-          <% for(var i=0; i<messages.length; i++) {%>
-            <li class="message">
-              <span><%= messages[i].name %></span>
-              <span><%= messages[i].msg %></span>
-              <span><%= messages[i].thumbUp %></span>
-              <span><i class="fa fa-thumbs-up" aria-hidden="true"></i></span>
-              <span><i class="fa fa-thumbs-down" aria-hidden="true"></i></span>
-              <span><i class="fa fa-trash" aria-hidden="true"></i></span>
-            </li>
-          <% } %>
-          </ul>
-
-          <h2>Add a message</h2>
-        <% if (user.local.email) { %>
-          <form action="/messages" method="POST">
-            <input type="text" value="<%= user.local.email %>" name="name">
-            <input type="text" placeholder="message" name="msg">
-            <button type="submit">Submit</button>
-          </form>
-        </div>
-        <% } %> -->
+     
 
     </div>
     <div id="reader" width="600px"></div>
@@ -67,8 +42,13 @@
             } */
     </style>
     <div id="scanner-container"></div>
-    <input type="button" id="btn" value="Start/Stop the scanner" />
-    <span id='barCode'>barcode</span>
+    <input type="button" id="btn" value="Start/Stop the scanner" data-id="<% user._id %>"/>
+    <span id="scannedBarCode"> </span>
+    <span id="scannedQRcode"> </span>
+    <button id="submitDeposit"> </button>
+  
+
+  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.js"></script>
 
 

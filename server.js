@@ -17,6 +17,7 @@ var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
 var configDB = require('./config/database.js');
+const { POINT_CONVERSION_COMPRESSED } = require('constants');
 
 var db
 
@@ -51,13 +52,17 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 
 // launch ======================================================================
-33
-https.createServer({
-  key: fs.readFileSync('server.key'),
-  cert: fs.readFileSync('server.cert')
-}, app).listen(3000, () => {
-  console.log('Listening on '+ port)
-})
+if(process.env.PRODUCTION){
+  app.listen(process.env.PORT)
+}else{
+  https.createServer({
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+  }, app).listen(3000, () => {
+    console.log('Listening on '+ port)
+  })
+}
+
 // app.listen(port);
 // console.log('The magic happens on port ' + port);
   

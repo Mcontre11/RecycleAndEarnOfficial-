@@ -11,14 +11,19 @@ module.exports = function (app, passport, db) {
   // app is my application/server/api (the app is listening for the type of request and the endpoint)
   // get / post / put / delete / update* are my crud actions/requests type 
   // the first parameter of my request type (ex. "/endpoint") is my endpoint aka route name 
-  app.get('/profile', isLoggedIn, function (req, res) {
-    db.collection('messages').find().toArray((err, result) => {
-      if (err) return console.log(err)
-      res.render('userAccount.ejs', {
-        user: req.user,
-        messages: result
+  app.get('/profile', isLoggedIn, function(req, res) {
+    console.log(req.user._id)
+      db.collection('codes').find({createdBy: req.user._id}).toArray((err, result) => {
+        if (err) return console.log(err)
+        console.log('profileWorking',result)
+        res.render('userAccount.ejs', {
+          user: req.user,
+          earnedPoints: result,
+          email:req.user.local.email
+        })
+        
+        console.log('req.user.local.email')
       })
-    })
   });
   app.get('/home', function (req, res) {
     res.render('home.ejs');
@@ -51,7 +56,9 @@ module.exports = function (app, passport, db) {
 
 
   app.post('/barCode', (req, res) => {
-    db.collection('codes').save({ barCode: req.body.barCode }, (err, result) => {
+    console.log('BARCODE',req.body)
+    console.log (req.user)
+    db.collection('codes').save({ barCode: req.body.barCode, user: req.body.userID }, (err, result) => {
       if (err) return console.log(err)
       console.log('barCodeSavedToDataBase, ', req.body.barCode)
       res.send({ status: 'true' })
@@ -104,23 +111,23 @@ module.exports = function (app, passport, db) {
 
   //  ADDING POINTS HERE?
 
-  app.put('/pointsCount', (req, res) => {
-    db.collection('earnedPoints')
-    if (err) return console.log(err)
-    console.log('barCodeSavedToDataBase, ', req.body.barCode)
-    res.send({ status: 'true' })
-      .findOneAndUpdate({ points: req.user._id }, {
-        $set: {
-          points: req.user_id + 1
-        }
-      }, {
-        sort: { _id: -1 },
-        upsert: true
-      }, (err, result) => {
-        if (err) return res.send(err)
-        res.send(result)
-      })
-  })
+  // app.put('/pointsCount', (req, res) => {
+  //   db.collection('earnedPoints')
+  //   if (err) return console.log(err)
+  //   console.log('barCodeSavedToDataBase, ', req.body.barCode)
+  //   res.send({ status: 'true' })
+  //     .findOneAndUpdate({ points: req.user._id }, {
+  //       $set: {
+  //         points: req.user_id + 1
+  //       }
+  //     }, {
+  //       sort: { _id: -1 },
+  //       upsert: true
+  //     }, (err, result) => {
+  //       if (err) return res.send(err)
+  //       res.send(result)
+  //     })
+  // })
 
   // app.put('/downVote', (req, res) => {
   //   db.collection('messages')
