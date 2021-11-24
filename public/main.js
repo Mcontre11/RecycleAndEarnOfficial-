@@ -1,6 +1,11 @@
 let barCode = ''
 let QRcode = ''
+
+// MARK hide the button until both are scanned
 document.getElementById('submitDeposit').style.display='none'
+// MARK attach an event listener which will send the qrcode and barcode to the server when clicked
+document.getElementById('submitDeposit').addEventListener('click', sendDeposit)
+
 var config = { 
   fps: 10,
   qrbox: {width: 250, height: 250},
@@ -16,21 +21,17 @@ function sendDeposit(){
     body: JSON.stringify({
       QRcode: QRcode,
        barCode : barCode
+      
     })
   })
   .then(response => {
-    if (response.ok) {
-      // HERE: update dialog: "Request processed!"
-      // AND MAYBE ALSO: Re-enable the QR code scanner
       return response.json();
-    } else {
-      // HERE: update dialog: "Error!"
-      // AND MAYBE ALSO: Re-enable the QR code scanner
-    }
   })
   .then(data => {
     console.log(data)
-    // window.location.reload(true)
+
+    // MARK reload the page which clears the codes so the user can submit another set of codes
+    window.location.reload(true)
   })
 }
 
@@ -77,10 +78,8 @@ var _scannerIsRunning = false;
 // we have the button hidden untill both are scanned 
       function startScanner(){
         document.getElementById('submitDeposit').style.display='none'
-        barCode = ''
-        QRcode = ''
-        document.getElementById('scannedBarCode').innerText = ''
-        document.getElementById('scannedQRcode').innerText = ''
+        console.log("START SCANNER")
+
         console.log("init button")
         Quagga.init({
           inputStream: {
@@ -163,6 +162,7 @@ var _scannerIsRunning = false;
           console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
           document.getElementById('scannedBarCode').innerText = result.codeResult.code
           barCode = result.codeResult.code
+          console.log("QRCODE && BARCODE", QRcode, barCode);
           if(QRcode && barCode){
             document.getElementById('submitDeposit').style.display='block'
           }
@@ -195,6 +195,3 @@ var _scannerIsRunning = false;
       //     console.log(this)
       //   });
       // })
-
-
-

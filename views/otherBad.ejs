@@ -1,4 +1,4 @@
-<%- include("partials/header") %>
+
 
 
 <!DOCTYPE html>
@@ -8,16 +8,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-    #map {
-      height: 100%;
-    }
-  </style>
 </head>
 <body>
   <div id="map">
@@ -27,34 +17,16 @@
 
 ​
       <script>
-        var options = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0
-};
-function initMap(){
-  function success(pos) {
-  var crd = pos.coords;
-
-  console.log('Your current position is:');
-  console.log(`Latitude : ${crd.latitude}`);
-  console.log(`Longitude: ${crd.longitude}`);
-  console.log(`More or less ${crd.accuracy} meters.`);
-  initMap0(crd.latitude,crd.longitude)
-}
-
-function error(err) {
-  console.warn(`ERROR(${err.code}): ${err.message}`);
-}
-
-navigator.geolocation.getCurrentPosition(success, error, options);
-}
-
-            
-          function initMap0(lat,lng) {
+            function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+              center: {lat: 41.856080, lng: -71.391910},
+              zoom: 8
+            });
+          }
+          function initMapTwo() {
               let options = {
                   zoom: 11,
-                  center: { lat: lat, lng: lng}
+                  center: { lat: 39.9526, lng: -75.1652 }
               }
               let map = new google.maps.Map(document.getElementById('map'), options)
               fetch('locations', {
@@ -69,7 +41,6 @@ navigator.geolocation.getCurrentPosition(success, error, options);
                       console.log(data)
                           for (let j = 0; j < data.locations.length; j++) {
                               let userAddress = data.locations[j].address;
-                              let stationName = data.locations[j].QRcode;
                               let queryAddress = userAddress.split(' ').join('+')
                               let userCoordinates
                               fetch(
@@ -102,7 +73,7 @@ navigator.geolocation.getCurrentPosition(success, error, options);
                                           google.maps.event.addListener(marker, 'click', (function (marker, i) {
                                               return function () {
                                                   infowindow.setContent(
-                                                      `<p>${stationName}</p> <img src="/img/${stationName}.png"></img>`
+                                                      `<p></p>`
                                                       );
                                                   infowindow.open(map, marker);
                                               }
