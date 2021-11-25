@@ -1,125 +1,165 @@
 <%- include("partials/header") %>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-    #map {
-      height: 100%;
-    }
-  </style>
-</head>
-<body>
-  <div id="map">
-    <div>
+  <!DOCTYPE html>
+  <html lang="en">
+  <!-- // MAKE take this head out and put it in another css because the same line of codes are showing up in both files and we just need it in one -->
+
+  <head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map">
+      <div>
         <h3> My Google Map</h3>
-​
+      </div>
+    </div>
 
-​
-      <script>
-        var options = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0
-};
-function initMap(){
-  function success(pos) {
-  var crd = pos.coords;
+    ​
 
-  console.log('Your current position is:');
-  console.log(`Latitude : ${crd.latitude}`);
-  console.log(`Longitude: ${crd.longitude}`);
-  console.log(`More or less ${crd.accuracy} meters.`);
-  initMap0(crd.latitude,crd.longitude)
-}
+    ​
+    <script>
+      var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      };
+      function initMap() {
+        function success(pos) {
+          var crd = pos.coords;
 
-function error(err) {
-  console.warn(`ERROR(${err.code}): ${err.message}`);
-}
+          console.log('Your current position is:');
+          console.log(`Latitude : ${crd.latitude}`);
+          console.log(`Longitude: ${crd.longitude}`);
+          console.log(`More or less ${crd.accuracy} meters.`);
+          initMap0(crd.latitude, crd.longitude)
+        }
 
-navigator.geolocation.getCurrentPosition(success, error, options);
-}
+        function error(err) {
+          console.warn(`ERROR(${err.code}): ${err.message}`);
+        }
 
-            
-          function initMap0(lat,lng) {
-              let options = {
-                  zoom: 11,
-                  center: { lat: lat, lng: lng}
-              }
-              let map = new google.maps.Map(document.getElementById('map'), options)
-              fetch('locations', {
-                  method: 'get',
-                  headers: { 'Content-Type': 'application/json' },
-              })
-                  .then(response => {
-                      console.log(response)
-                      if (response.ok) return response.json()
-                  })
-                  .then(data => {
-                      console.log(data)
-                          for (let j = 0; j < data.locations.length; j++) {
-                              let userAddress = data.locations[j].address;
-                              let stationName = data.locations[j].QRcode;
-                              let queryAddress = userAddress.split(' ').join('+')
-                              let userCoordinates
-                              fetch(
-                                  `https://maps.googleapis.com/maps/api/geocode/json?address=${queryAddress}&key=AIzaSyChzooPvmWzWzfK5O-m08fYRijT7XAwxVo`
-                              )
-                                  .then(res => res.json())
-                                  .then(function (result) {
-                                    console.log(result)
-                                      let locations = []
-                                      let lat = result.results[0].geometry.location.lat
-                                      let lng = result.results[0].geometry.location.lng
-                                      let coords = [lat, lng]
-                                      locations.push(coords)
-                                      var infowindow = new google.maps.InfoWindow();
-                                      var marker, i;
-                                      for (i = 0; i < locations.length; i++) {
-                                        console.log(locations[i][0], locations[i][1])
-                                          marker = new google.maps.Marker({
-                                              position: new google.maps.LatLng(locations[i][0], locations[i][1]),
-                                              map: map,
-                                              // icon: {
-                                              // // add image url instead of binary
-                                              // scaledSize: new window.google.maps.Size(50, 50)
-                                              // },
-                                              mapTypeId: google.maps.MapTypeId.ROADMAP,
-                                              draggable: false,
-                                              title: "pin",
-                                              content: '<h1>Location</h1>'
-                                          });
-                                          google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                                              return function () {
-                                                  infowindow.setContent(
-                                                      `<p>${stationName}</p> <img src="/img/${stationName}.png"></img>`
-                                                      );
-                                                  infowindow.open(map, marker);
-                                              }
-                                          })(marker, i));
-                                      }
-                                  });
-                          }
-                      
-                  })
-          }
-      </script>
+        navigator.geolocation.getCurrentPosition(success, error, options);
+      }
+      //this functon is to figure out the radius 
+      // https://cloud.google.com/blog/products/maps-platform/how-calculate-distances-map-maps-javascript-api
+      function haversine_distance(lat1, lon1, lat2, lon2) {
+      var R = 3958.8; // Radius of the Earth in miles
+      var rlat1 = lat1 * (Math.PI/180); // Convert degrees to radians
+      var rlat2 = lat2 * (Math.PI/180); // Convert degrees to radians
+      var difflat = rlat2-rlat1; // Radian difference (latitudes)
+      var difflon = (lon2 -lon1) * (Math.PI/180); // Radian difference (longitudes)
 
-<!-- <script type="text/javascript"
+      var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
+      return d;
+      }
+      // Each recycle station that exisits has a marker on the map 
+      // get all locations from data base 
+      // itterrate over them and for each one that is close enough to users current location we add a marker on the map
+      // we need a const to show radius KM to decide which ones we know are close enough to the user
+      const radiusMiles = 5.0
+     
+      // lat and lng are users lattitude and long cordinates
+      function initMap0(userLat, userLng) {
+        let options = {
+          zoom: 11,
+          center: { lat: userLat, lng: userLng }
+        }
+        let map = new google.maps.Map(document.getElementById('map'), options)
+        fetch('locations', {
+          method: 'get',
+          headers: { 'Content-Type': 'application/json' },
+        })
+          //one we fetch the locations of all the the recycling centers 
+          .then(response => {
+            console.log('resp ' + response)
+            if (response.ok) return response.json()
+          })
+          .then(data => {
+            console.log(data)
+            for (let j = 0; j < data.locations.length; j++) {
+              let stationAddress = data.locations[j].address;
+              let stationName = data.locations[j].QRcode;
+              let queryAddress = stationAddress.split(' ').join('+')
+
+              fetch(
+                `https://maps.googleapis.com/maps/api/geocode/json?address=${queryAddress}&key=AIzaSyChzooPvmWzWzfK5O-m08fYRijT7XAwxVo`
+              )
+                .then(res => res.json())
+                .then(function (result) {
+                  console.log(result)
+                  let locations = []
+                  let lat = result.results[0].geometry.location.lat
+                  let lng = result.results[0].geometry.location.lng
+                  // how far away from me is the recycle center?
+                  // we then want to compate the result of how far to the 5mile radius
+                  let howFar = haversine_distance (userLat, userLng, lat, lng)
+                  if(howFar < radiusMiles){
+
+
+                  
+                  
+              
+
+               
+                  let coords = [lat, lng]
+                  locations.push(coords)
+                  var infowindow = new google.maps.InfoWindow();
+                  var marker, i;
+                  for (i = 0; i < locations.length; i++) {
+                    console.log(locations[i][0], locations[i][1])
+                    marker = new google.maps.Marker({
+                      position: new google.maps.LatLng(locations[i][0], locations[i][1]),
+                      map: map,
+                      // icon: {
+                      // // add image url instead of binary
+                      // scaledSize: new window.google.maps.Size(50, 50)
+                      // },
+                      mapTypeId: google.maps.MapTypeId.ROADMAP,
+                      draggable: false,
+                      title: "pin",
+                      content: '<h1>Location</h1>'
+                    });
+                    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                      return function () {
+                        infowindow.setContent(
+                          `<p>${stationName}</p> <img src="/img/${stationName}.png"></img>`
+                        );
+                        infowindow.open(map, marker);
+                      }
+                    })(marker, i));
+                  }
+                }
+                });
+            }
+
+          })
+      }
+    </script>
+
+    <!-- <script type="text/javascript"
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChzooPvmWzWzfK5O-m08fYRijT7XAwxVo&libraries=places">
 </script> -->
-<script
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChzooPvmWzWzfK5O-m08fYRijT7XAwxVo&channel=2&callback=initMap"
-async defer></script> 
-</body>
-</html>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChzooPvmWzWzfK5O-m08fYRijT7XAwxVo&channel=2&callback=initMap"
+      async defer></script>
+  </body>
+
+  </html>
