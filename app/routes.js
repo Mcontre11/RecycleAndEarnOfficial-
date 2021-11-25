@@ -26,6 +26,32 @@ module.exports = function (app, passport, db) {
         console.log('req.user.local.email')
       })
   });
+//  app.get('/board', function(req, res){
+//    // '/./'is a regular expression that matches any string with atleast 1 character
+//    // we are using it to tell mongoose "please give any document whos barcode properry has atleast 1 character"
+//    // the qr code dont match because they dont have barcode properrty at all 
+//    db.collection('codes').find({barCode: /./}).toArray( (err,result) =>
+//    {
+//      // calculate whats inside the array, count up the amount of times the same barcode shows up 
+
+//      //we use res.end to end when we dont use res.render.... in this case we need to add res.render after I figure out the calcs
+//      res.end(
+//      )
+//      console.log(result)
+//      console.log('error',err)
+//    }
+//    ) 
+//  }
+ 
+ 
+//  )
+
+
+
+
+
+
+
 // locations 
 app.get('/locations', function (req, res) {
   db.collection('locations').find().toArray((err, result) => {

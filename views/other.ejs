@@ -41,6 +41,9 @@
         timeout: 5000,
         maximumAge: 0
       };
+      // this is where the map initializes according to logged in user
+      // ex im in ri
+      //others in boston 
       function initMap() {
         function success(pos) {
           var crd = pos.coords;
@@ -112,13 +115,6 @@
                   // we then want to compate the result of how far to the 5mile radius
                   let howFar = haversine_distance (userLat, userLng, lat, lng)
                   if(howFar < radiusMiles){
-
-
-                  
-                  
-              
-
-               
                   let coords = [lat, lng]
                   locations.push(coords)
                   var infowindow = new google.maps.InfoWindow();
