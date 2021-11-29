@@ -26,31 +26,41 @@ module.exports = function (app, passport, db) {
         console.log('req.user.local.email')
       })
   });
-//  app.get('/board', function(req, res){
-//    // '/./'is a regular expression that matches any string with atleast 1 character
-//    // we are using it to tell mongoose "please give any document whos barcode properry has atleast 1 character"
-//    // the qr code dont match because they dont have barcode properrty at all 
-//    db.collection('codes').find({barCode: /./}).toArray( (err,result) =>
-//    {
-//      // calculate whats inside the array, count up the amount of times the same barcode shows up 
 
-//      //we use res.end to end when we dont use res.render.... in this case we need to add res.render after I figure out the calcs
-//      res.end(
-//      )
-//      console.log(result)
-//      console.log('error',err)
-//    }
-//    ) 
-//  }
+ app.get('/board', function(req, res){
+   // '/./'is a regular expression that matches any string with atleast 1 character
+   // we are using it to tell mongoose "please give any document whos barcode properry has atleast 1 character"
+   // the qr code dont match because they dont have barcode properrty at all 
+   db.collection('codes').find({barCode: /./}).toArray((err,result) => {
+    console.log(result)
+    if (err) return console.log(err)
+    const barCodeCount = {}
+    for (let i = 0; i < result.length; i++){
+    const currentBarCode = result[i].barCode
+    if (
+      barCodeCount[currentBarCode] 
+    ){
+      barCodeCount[currentBarCode]++
+    } else{
+      barCodeCount[currentBarCode] = 1 
+    }
+    }
+    console.log(barCodeCount,'barCodeCount',typeof(barCodeCount))
+
+    res.render('leaderBoard.ejs', {
+     barCodeCount: barCodeCount
+    })   
+     // calculate whats inside the array, count up the amount of times the same barcode shows up 
+
+     //we use res.end to end when we dont use res.render.... in this case we need to add res.render after I figure out the calcs
+  //    res.end( {
  
+  
+}  );
+ } );
+
+
  
-//  )
-
-
-
-
-
-
 
 // locations 
 app.get('/locations', function (req, res) {
@@ -139,90 +149,16 @@ app.get('/locations', function (req, res) {
           
       
     })
-      // we are adding a get in order to find the time stamp object in the collection in order to stop the multiple qr readers
-      //%$ is used to not equal the value 
-      // db.collection('codes').save({ QRcode: req.body.barCode, user: req.body.user}).toArray((findErr, QRcodes) => {
-      //   if (findErr) return console.log(findErr)
 
-        // we create this variable in order to sort variables and we compare a, b which are the qr codes 
-        // after the fat arrow means that the first element in the qr code is one that is saved 
-        // let sortedQRcodes = QRcodes.sort((a, b) => b.timeStamp - a.timeStamp)
-        // let somethingHasBeenScanned;
-        // if (sortedQRcodes.length == 0) {
-        //   somethingHasBeenScanned = false;
-        // } else {
-        //   somethingHasBeenScanned = true;
-        // }
-
-        // These "nested" conditions are all about guarding against the case
-        // where multiple QR codes are uploaded in rapid succession. Our
-        // strategy is to check whether a QR code has been uploaded in the
-        // last 60 seconds, and if so, ignore the request.
-        // We can only check for the latest QR code if there are any QR codes
-        // in the database to begin with. That's what the "outer" condition is
-        // verifying.
-      //   if (somethingHasBeenScanned) {
-      //     // we are checking if the most recent entry was less than a minute we do not save
-      //     if (Date.now() - sortedQRcodes[0].timeStamp <= 60000) {
-      //       console.log('tooSoon')
-      //       res.send([]);
-      //       return;
-      //     }
-      //   }
-
-      //   db.collection('codes').save({ QRcode: req.body.QRcode, timeStamp: Date.now() }, (err, result) => {
-      //     if (err) return console.log(err)
-      //     console.log('QRcodeSavedToDataBase, ', req.body.QRcode)
-      //     res.send({ status: 'true' })
-      //   })
-      // })
-  
-
-
-
-  //  ADDING POINTS HERE?
-
-  // app.put('/pointsCount', (req, res) => {
-  //   db.collection('earnedPoints')
-  //   if (err) return console.log(err)
-  //   console.log('barCodeSavedToDataBase, ', req.body.barCode)
-  //   res.send({ status: 'true' })
-  //     .findOneAndUpdate({ points: req.user._id }, {
-  //       $set: {
-  //         points: req.user_id + 1
-  //       }
-  //     }, {
-  //       sort: { _id: -1 },
-  //       upsert: true
-  //     }, (err, result) => {
-  //       if (err) return res.send(err)
-  //       res.send(result)
-  //     })
-  // })
-
-  // app.put('/downVote', (req, res) => {
-  //   db.collection('messages')
-  //   .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
-  //     $set: {
-  //       thumbUp:req.body.thumbDown - 1 
-  //     }
-  //   }, {
-  //     sort: {_id: -1},
-  //     upsert: true
-  //   }, (err, result) => {
-  //     if (err) return res.send(err)
-  //     res.send(result)
-  //   })
-  // })
-
-  // app.delete('/messages', (req, res) => {
-  //   db.collection('messages').findOneAndDelete({name: req.body.name, msg: req.body.msg}, (err, result) => {
-  //     if (err) return res.send(500, err)
-  //     res.send('Message deleted!')
-  //   })
-  // })
-
-  // =============================================================================
+// post from leaderBoard 
+    // app.post('/Board', (req, res) => {
+    //   const barCodes = barCodeCount.keys();
+    //   for (let i = 0; i < barCodes.length; i++) {
+    //     const currentBarCode = barCodes[i]; // one of the used barcodes
+    //     const currentCodeCount = barCodeCount[currentBarCode]; // number of times barcode used
+    //   }
+    // });
+ 
   // AUTHENTICATE (FIRST LOGIN) ==================================================
   // =============================================================================
 

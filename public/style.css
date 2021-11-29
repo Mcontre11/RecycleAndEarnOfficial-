@@ -16,9 +16,10 @@ img{
 
 
 .header {
-  padding: 60px;
+  padding: 140px;
   text-align: center;
-  background: #1abc9c;
+  background-image: url(img/RMEnav.png);
+  width: 100%;
   color: white;
   font-size: 30px;
 }
@@ -47,7 +48,7 @@ img{
 
 /* Add a color to the active/current link */
 .topnav a.active {
-  background-color: #04AA6D;
+  background-color: #07acf8;
   color: white;
 }
 

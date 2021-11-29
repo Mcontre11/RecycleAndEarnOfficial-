@@ -86,8 +86,8 @@ var _scannerIsRunning = false;
             name: "Live",
             type: "LiveStream",
             constraints: {
-              width: 640,
-              height: 480,
+              width:1000,
+              height: 700,
               facingMode: "environment"
             },
             numberOfWorkers: navigator.hardwareConcurrency,

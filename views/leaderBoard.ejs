@@ -1,31 +1,38 @@
 <%- include("partials/header") %>
+<link rel="stylesheet" href="board.css">
 
-<div class="container">
+<div class="container"> </div>
 
 
-  <div class="leaderBoard">
+  <div class="leaderBoard"> </div>
 
     <!-- LOCAL INFORMATION -->
-    <div class="col-sm-6">
-      <div class="well">
-        <h3><span class="fa fa-user"></span> Leader Board</h3>
+    <div class="col-sm-6"> 
+      <div class="board">
+        <h3><span class="fa fa-star"></span> Leader Board<span class="fa fa-star"></span> 
+        </h3>
+   
+        <ul class="messages">
+          <% 
+          const barCodes = Object.keys(barCodeCount)
+          for(var i=0; i<barCodes.length; i++) {
 
-        <!--creating a spot to show the data  -->
-      
+            %>
+            <li class="counter">
+              <span><%= barCodes[i] %></span>
+              <span><%= barCodeCount[barCodes[i]] %></span>
+            </li>
+          <% } %>
+          </ul>
+      </div>
+     </div
+
+     
+       
           
-          <p>
-            <strong>barcode/strong>: <%= user._id %><br>
-              <strong>email</strong>: <%= user.local.email %><br>
-                <strong> Earned Points</strong>: <%= user.EarnedPoints %><br>
-          </p>
 
    
            
 
-      </div>
-    </div>
 
-   
-  </div>
-  </div>
  

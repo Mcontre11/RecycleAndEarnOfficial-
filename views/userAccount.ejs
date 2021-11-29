@@ -1,4 +1,8 @@
 <%- include("partials/header") %>
+<head>
+  <link rel="stylesheet" href="profile.css">
+</head>
+
   <div class="container">
 
     <div class="page-header text-center">
@@ -8,10 +12,10 @@
 
     <div class="row">
 
-      <!-- LOCAL INFORMATION -->
+      <!-- UNIQUE USER LOCAL INFORMATION -->
       <div class="col-sm-6">
         <div class="well">
-          <h3><span class="fa fa-user"></span> Hello There</h3>
+          <h3><span class="fa fa-user"></span> Keep track of your points here!</h3>
 
           <!--creating a spot to show the data  -->
           <% if (user) { %>
@@ -24,31 +28,53 @@
      
               <% } %>
 
+              
         </div>
       </div>
 
      
 
     </div>
-    <div id="reader" width="600px"></div>
-
-    <style>
-      /* In order to place the tracking correctly */
-      /* canvas.drawing,
-            canvas.drawingBuffer {
-                position: absolute;
-                left: 0;
-                top: 0;
-            } */
-    </style>
+    <section class=steps>
+      Once you are located at the designated RME station please follow these steps!
+      <ol>
+        <li> allow location access</li>
+        <li> start the scanner and scan the QR code on the recycle bin </li>
+        <li> press the button to stop the scanner </li>
+        <li> start the seccond scanner by pressing the 2nd button </li>
+        <li> scan the barcode of the item you are recycling </li> 
+        <li>wait for the magic button to appear & press it to redeem your points!  </li>
+        <li> once you reach over 50pts you can redeem & earn coupons, gift cards, prizes! </li>
+          <li> last but not least, say your welcome to our planet & future for helping make small meaningful changes </li> 
+        </ol>
+    </section>
+     
+ <section class=QR>
+    <div id="reader" width="640px" height="480px" ></div>
+ </section>
+ 
+ <section class=BARCODE>
     <div id="scanner-container"></div>
     <input type="button" id="btn" value="Start/Stop the scanner" data-id="<% user._id %>"/>
     <span id="scannedBarCode"> </span>
     <span id="scannedQRcode"> </span>
     <button id="submitDeposit"> </button>
+ </section>
   
 
-  
+ 
+<!-- Footer -->
+<footer class="page-footer font-small blue">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2021 $kuh RME Copyright
+ 
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+<!-- Footer -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.js"></script>
 
 
@@ -58,120 +84,7 @@
 
     <script src="https://kit.fontawesome.com/c0e668a8ad.js" crossorigin="anonymous"></script>
     <script src="main.js"></script>
-    <!-- <script>
-      var _scannerIsRunning = false;
-
-      function startScanner() {
-        console.log("init button")
-        Quagga.init({
-          inputStream: {
-            name: "Live",
-            type: "LiveStream",
-            constraints: {
-              width: 640,
-              height: 480,
-              facingMode: "environment"
-            },
-            numberOfWorkers: navigator.hardwareConcurrency,
-            target: '#scanner-container',
-          },
-          locate: true,
-          decoder: {
-            readers: [
-              "code_128_reader",
-              "upc_reader",
-              "upc_e_reader",
-
-            ],
-
-            debug: {
-              drawBoundingBox: true,
-              drawScanline: true,
-              showFrequency: true,
-              showPattern: true,
-
-              showCanvas: true,
-              showPatches: true,
-              showFoundPatches: true,
-              showSkeleton: true,
-              showLabels: true,
-              showPatchLabels: true,
-              showRemainingPatchLabels: true,
-              boxFromPatches: {
-                showTransformed: true,
-                showTransformedBox: true,
-                showBB: true
-              }
-            }
-          },
-
-        }, function (err) {
-          if (err) {
-            console.log("err from startScanner", err);
-            return
-          }
-
-          console.log("Initialization finished. Ready to start");
-          Quagga.start();
-
-          // Set flag to is running
-          _scannerIsRunning = true;
-        });
-        Quagga.onProcessed(function (result) {
-          var drawingCtx = Quagga.canvas.ctx.overlay,
-            drawingCanvas = Quagga.canvas.dom.overlay;
-
-          if (result) {
-            if (result.boxes) {
-              drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
-              result.boxes.filter(function (box) {
-                return box !== result.box;
-              }).forEach(function (box) {
-                Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, { color: "green", lineWidth: 2 });
-              });
-            }
-
-            if (result.box) {
-              Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, { color: "#00F", lineWidth: 2 });
-            }
-
-            if (result.codeResult && result.codeResult.code) {
-              Quagga.ImageDebug.drawPath(result.line, { x: 'x', y: 'y' }, drawingCtx, { color: 'red', lineWidth: 3 });
-            }
-          }
-        });
-        Quagga.onDetected(function (result) {
-          console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
-          document.getElementById('barCode').innerText = result.codeResult.code
-          fetch('barCode', {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-
-              barCode: result.codeResult.code
-            })
-          })
-            .then(response => {
-              if (response.ok) return response.json()
-            })
-            .then(data => {
-              console.log("barcode sent to server");
-              console.log("response from server", data);
-              // window.location.reload(true)
-            })
-        });
-
-        // Start/stop scanner
-
-      }
-      document.getElementById("btn").addEventListener("click", function () {
-        if (_scannerIsRunning) {
-          Quagga.stop();
-        } else {
-          startScanner();
-        }
-      }, false);
-    </script> -->
+   
     </body>
 
     </html>
