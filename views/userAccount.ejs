@@ -20,10 +20,12 @@
           <!--creating a spot to show the data  -->
           <% if (user) { %>
             <p>
-              <strong>id</strong>: <%= user._id %><br>
-                <strong>email</strong>: <%= user.local.email %><br>
+              <strong >id </strong> : <%= user._id %><br >
+                <strong  >email </strong>: <%= user.local.email %><br >
+              </p>
+              <span>
                   <strong> Earned Points</strong>: <%= user.EarnedPoints %><br>
-            </p>
+              </span>
 
      
               <% } %>

@@ -1,24 +1,40 @@
+
+
+
 body{
   background-color: rgb(188,227,170);
   background: linear-gradient(0deg, rgba(188,227,170,1) 29%, rgba(69,161,12,1) 88%);
   
 }
-ul {
-  background: #493112;
-  padding: 15px;
-  width: 50%;
-  text-align: center;
-}
 
-ul li {
-  background: #81e98f;
-  padding: 5px;
+#notes{
+  border-style: solid;
+  background-color: tan;
+  width: 500px;
+ 
+  border-width: 5px;
+  height: 455px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 35%;
+  float: left;
+  clear: both;
+}
+#myNote{
+  height: 700px;
+  margin-top:10px;
+  float: left;
+  clear: both;
+}
+h1{
   text-align: center;
+  font-size: 55px;
 }
-.statement{
-  border: 20px;
-  height:100px;
-  width: 200px;
-text-align: center;
+p{
+  margin-top: 3%;
+  text-align: center;
+  font-size: 20px;
 }
-
+img{
+  margin-left: 100px;
+}

@@ -1,6 +1,8 @@
 body{
   padding-top:80px;
   word-wrap:break-word;
+
+  margin:0px;
 }
 img{
   height: 200px;
@@ -16,9 +18,11 @@ img{
 
 
 .header {
-  padding: 140px;
+  padding: 200px;
+  margin-top: 0%;
   text-align: center;
-  background-image: url(img/RMEnav.png);
+  background-image: url(img/logoRME.png);
+  background-repeat: no-repeat;
   width: 100%;
   color: white;
   font-size: 30px;
