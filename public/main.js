@@ -47,9 +47,7 @@ function onScanSuccess(decodedText, decodedResult) {
   }
 }
 
-// .then (res => {
-//   if {onScanSuccess.true} console.log(success)
-// })
+
 
 function onScanFailure(error) {
   // handle scan faiflure, usually better to ignore and keep scanning.
@@ -163,6 +161,7 @@ var _scannerIsRunning = false;
           document.getElementById('scannedBarCode').innerText = result.codeResult.code
           barCode = result.codeResult.code
           console.log("QRCODE && BARCODE", QRcode, barCode);
+
           if(QRcode && barCode){
             document.getElementById('submitDeposit').style.display='block'
           }
@@ -180,18 +179,3 @@ var _scannerIsRunning = false;
           startScanner();
         }
       }, false);
-
-      // //  addpoints next sttep
-      
-      // forEach(function (element) {
-      // 	console.log(element, 'element')
-      //   if (Quagga.OnDetected === 'complete' && onScanSuccess === true) {
-
-      
-      // 		console.log(element.parentNode.childNodes[3]);
-      // 		element.parentNode.childNodes[3].classList.add('completed');
-      // 	}
-      // 	element.addEventListener('listen', function () {
-      //     console.log(this)
-      //   });
-      // })

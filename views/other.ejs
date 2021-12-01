@@ -44,9 +44,7 @@
         timeout: 5000,
         maximumAge: 0
       };
-      // this is where the map initializes according to logged in user
-      // ex im in ri
-      //others in boston 
+      
       function initMap() {
         function success(pos) {
           var crd = pos.coords;
@@ -64,22 +62,19 @@
 
         navigator.geolocation.getCurrentPosition(success, error, options);
       }
-      //this functon is to figure out the radius 
-      // https://cloud.google.com/blog/products/maps-platform/how-calculate-distances-map-maps-javascript-api
+      //this functon is to calc he radius 
+     
       function haversine_distance(lat1, lon1, lat2, lon2) {
       var R = 3958.8; // Radius of the Earth in miles
       var rlat1 = lat1 * (Math.PI/180); // Convert degrees to radians
       var rlat2 = lat2 * (Math.PI/180); // Convert degrees to radians
       var difflat = rlat2-rlat1; // Radian difference (latitudes)
       var difflon = (lon2 -lon1) * (Math.PI/180); // Radian difference (longitudes)
-
+       // this is formulula to calc between 2 distances 
       var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
       return d;
       }
-      // Each recycle station that exisits has a marker on the map 
-      // get all locations from data base 
-      // itterrate over them and for each one that is close enough to users current location we add a marker on the map
-      // we need a const to show radius KM to decide which ones we know are close enough to the user
+      // const to show radius KM to decide which locations are close enough to the user
       const radiusMiles = 5.0
      
       // lat and lng are users lattitude and long cordinates
@@ -93,7 +88,6 @@
           method: 'get',
           headers: { 'Content-Type': 'application/json' },
         })
-          //one we fetch the locations of all the the recycling centers 
           .then(response => {
             console.log('resp ' + response)
             if (response.ok) return response.json()
@@ -114,8 +108,6 @@
                   let locations = []
                   let lat = result.results[0].geometry.location.lat
                   let lng = result.results[0].geometry.location.lng
-                  // how far away from me is the recycle center?
-                  // we then want to compate the result of how far to the 5mile radius
                   let howFar = haversine_distance (userLat, userLng, lat, lng)
                   if(howFar < radiusMiles){
                   let coords = [lat, lng]
@@ -127,10 +119,6 @@
                     marker = new google.maps.Marker({
                       position: new google.maps.LatLng(locations[i][0], locations[i][1]),
                       map: map,
-                      // icon: {
-                      // // add image url instead of binary
-                      // scaledSize: new window.google.maps.Size(50, 50)
-                      // },
                       mapTypeId: google.maps.MapTypeId.ROADMAP,
                       draggable: false,
                       title: "pin",
@@ -153,9 +141,6 @@
       }
     </script>
 
-    <!-- <script type="text/javascript"
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChzooPvmWzWzfK5O-m08fYRijT7XAwxVo&libraries=places">
-</script> -->
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChzooPvmWzWzfK5O-m08fYRijT7XAwxVo&channel=2&callback=initMap"
       async defer></script>

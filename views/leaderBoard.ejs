@@ -13,16 +13,20 @@
         </h3>
    
         <ul class="messages">
+          <p class="barCd">
           <% 
           const barCodes = Object.keys(barCodeCount)
           for(var i=0; i<barCodes.length; i++) {
 
             %>
+          </p>
             <li class="counter">
+              <p class="count">
               <span><%= barCodes[i] %></span>
               <span><%= barCodeCount[barCodes[i]] %></span>
             </li>
           <% } %>
+          </p>
           </ul>
       </div>
      
