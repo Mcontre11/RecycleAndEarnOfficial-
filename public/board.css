@@ -5,6 +5,12 @@ background: radial-gradient(circle, rgba(194,247,103,1) 46%, rgba(194,247,103,1)
 h3{
   color: azure;
 }
-p .count span{
+
+ .count {
   color:blanchedalmond;
+  font-size: 20px;
+}
+.the{
+  color: blue;
+  margin-left: 150px;
 }
