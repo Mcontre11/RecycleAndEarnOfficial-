@@ -31,9 +31,13 @@ ol{
   top: auto;
 }
 
-img #Smedia{
-height: 500px;
-width: 100%;
+ #Smedia{
+height: 300px;
+width: 300px;
+margin-left: 300px;
+}
+#hug{
+  margin-left: 150px;
 }
 .myQuote{
   font-family: 'Libre Barcode 39 Text', cursive;
@@ -47,4 +51,9 @@ margin-left: 40px;
 list-style: none;
 box-shadow: 5px 5px 4px black;
 background-color:rgb(233, 233, 225);
+
+}
+#phrase{
+  font-size: 30px;
+  margin-left:600px;
 }

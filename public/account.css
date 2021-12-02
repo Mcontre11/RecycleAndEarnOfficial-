@@ -2,7 +2,10 @@ body{
   background: rgb(194,247,103);
   background: radial-gradient(circle, rgba(194,247,103,1) 46%, rgba(194,247,103,1) 69%);
   padding-top: 0px;
-  color:white
+  color:white;
+}
+h1{
+  color: rgba(72, 3, 138);
 }
 .header{
   margin-top: 0%;
@@ -10,14 +13,14 @@ body{
 .well{
   margin-left: 50%;
   padding-left: 20px;
-background-color:rgb(133, 95, 223);
+  background-color:rgb(77, 4, 155);
 }
 
 p{
   display: none;
 }
 .steps{
-  height: 500px;
+  height: 300px;
     width: 400px;
     border: 1px solid black;
     color:black;
@@ -25,8 +28,7 @@ p{
     margin-left: 5%;
     margin-top: 2%;
     margin-bottom: 2%;
-    background: rgb(195, 183, 247);
-    opacity: 0.5;
+    background: rgb(166, 131, 230);
     box-shadow: 5px 5px 4px black;
 }
 #reader{
