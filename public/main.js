@@ -100,25 +100,25 @@ var _scannerIsRunning = false;
 
             ],
 
-            debug: {
-              drawBoundingBox: true,
-              drawScanline: true,
-              showFrequency: true,
-              showPattern: true,
+            // debug: {
+            //   drawBoundingBox: true,
+            //   drawScanline: true,
+            //   showFrequency: true,
+            //   showPattern: true,
 
-              showCanvas: true,
-              showPatches: true,
-              showFoundPatches: true,
-              showSkeleton: true,
-              showLabels: true,
-              showPatchLabels: true,
-              showRemainingPatchLabels: true,
-              boxFromPatches: {
-                showTransformed: true,
-                showTransformedBox: true,
-                showBB: true
-              }
-            }
+            //   showCanvas: true,
+            //   showPatches: true,
+            //   showFoundPatches: true,
+            //   showSkeleton: true,
+            //   showLabels: true,
+            //   showPatchLabels: true,
+            //   showRemainingPatchLabels: true,
+            //   boxFromPatches: {
+            //     showTransformed: true,
+            //     showTransformedBox: true,
+            //     showBB: true
+            //   }
+            // }
           },
 
         }, function (err) {
@@ -138,22 +138,22 @@ var _scannerIsRunning = false;
             drawingCanvas = Quagga.canvas.dom.overlay;
 
           if (result) {
-            if (result.boxes) {
-              drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
-              result.boxes.filter(function (box) {
-                return box !== result.box;
-              }).forEach(function (box) {
-                Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, { color: "green", lineWidth: 2 });
-              });
-            }
+            // if (result.boxes) {
+            //   drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+            //   result.boxes.filter(function (box) {
+            //     return box !== result.box;
+            //   }).forEach(function (box) {
+            //     Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, { color: "green", lineWidth: 2 });
+            //   });
+            // }
 
-            if (result.box) {
-              Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, { color: "#00F", lineWidth: 2 });
-            }
+            // if (result.box) {
+            //   Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, { color: "#00F", lineWidth: 2 });
+            // }
 
-            if (result.codeResult && result.codeResult.code) {
-              Quagga.ImageDebug.drawPath(result.line, { x: 'x', y: 'y' }, drawingCtx, { color: 'red', lineWidth: 3 });
-            }
+            // if (result.codeResult && result.codeResult.code) {
+            //   Quagga.ImageDebug.drawPath(result.line, { x: 'x', y: 'y' }, drawingCtx, { color: 'red', lineWidth: 3 });
+            // }
           }
         });
         Quagga.onDetected(function (result) {

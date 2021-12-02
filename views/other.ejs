@@ -104,7 +104,7 @@
               )
                 .then(res => res.json())
                 .then(function (result) {
-                  console.log(result)
+                  console.log('places',result)
                   let locations = []
                   let lat = result.results[0].geometry.location.lat
                   let lng = result.results[0].geometry.location.lng

@@ -1,9 +1,11 @@
 body{
   background: rgb(194,247,103);
   background: radial-gradient(circle, rgba(194,247,103,1) 46%, rgba(194,247,103,1) 69%);
-  
   padding-top: 0px;
   color:white
+}
+.header{
+  margin-top: 0%;
 }
 .well{
   margin-left: 50%;
@@ -26,4 +28,13 @@ p{
     background: rgb(195, 183, 247);
     opacity: 0.5;
     box-shadow: 5px 5px 4px black;
+}
+#reader{
+  width: 85%;
+}
+#submitDeposit{
+  background: rgb(194,247,103);
+  background: radial-gradient(circle, rgba(194,247,103,1) 46%, rgba(103,247,219,1) 69%);
+  height: 50px;
+  width:80px;
 }
