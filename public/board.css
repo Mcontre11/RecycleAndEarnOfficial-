@@ -3,14 +3,55 @@ body{
 background: radial-gradient(circle, rgba(194,247,103,1) 46%, rgba(194,247,103,1) 69%);
 }
 h3{
+  text-align: center;
+  font-size: 30px;
   color: azure;
 }
-
- .count {
+ul{
+  list-style: none;
+}
+ /* .count {
   color:blanchedalmond;
   font-size: 20px;
-}
-.the{
+} */
+/* .the{
   color: blue;
   margin-left: 150px;
+} */
+
+.messages{
+  border:2px solid black;
+  box-shadow: 5px 5px 2px rgba(33,33,33,.7);
+  border-radius:8px;
+  width:60%;
+  margin:auto;
+  height:600px;
+  overflow: scroll;
+}
+
+.counter{
+  font-weight: 900;
+  border:1px solid black;
+  background-color: white;
+  padding:10px;
+  text-align: center;
+  margin-left: -10%;
+  width:105%;
+}
+
+.counter:nth-child(odd){
+  background-color: rgb(187, 187, 187);
+}
+
+
+.counter span{
+  margin-left: 40%;
+}
+#brand{
+  font-size: 20px;
+}
+
+#number{
+  font-size: 20px;
+  margin-left: 50px;
 }

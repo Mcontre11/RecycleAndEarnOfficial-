@@ -9,23 +9,21 @@
     <!-- LOCAL INFORMATION -->
     <div class="col-sm-6"> 
       <div class="board">
-        <h3><span class="fa fa-star"></span> Leader Board<span class="fa fa-star"></span> 
+        <h3><span class="fa fa-star"></span> What Was recycled ? Dash Board<span class="fa fa-star"></span> 
         </h3>
    
         <ul class="messages">
+          <span id="brand"> items recycled </span>
+          <span id="number"> # of times recycled </span>
           <% 
           const barCodes = Object.keys(barCodeCount)
           for(var i=0; i<barCodes.length; i++) {
-
             %>
-          
             <li class="counter">
-              <p class="count">
-              <span><%= barCodes[i] %></span>
-            </p>
-            <p class="the">
-              <span><%= barCodeCount[barCodes[i]] %></span>
-            </p>
+              
+              <%= barCodes[i] %> <span>
+              <%= barCodeCount[barCodes[i]] %>
+           <span>
             </li>
           <% } %>
          

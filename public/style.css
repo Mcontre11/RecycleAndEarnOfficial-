@@ -1,27 +1,14 @@
 body{
   padding-top:80px;
   word-wrap:break-word;
-
   margin:0px;
 }
 
-h1{
-  font-family: 'Libre Barcode 39 Text', cursive;
-  font-family: 'Wallpoet', cursive;
-  size: 30px;
-}
+
 
 img{
   height: 300px;
 }
-/* .clearfix:after {
-  content: ".";
-  display: block;
-  clear: both;
-  visibility: hidden;
-  line-height: 0;
-  height: 0;
-} */
 
 
 .header {
@@ -44,7 +31,7 @@ img{
 /* Style the links inside the navigation bar */
 .topnav a {
   float: left;
-  color: #f2f2f2;
+  color:#9050f7;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -53,7 +40,7 @@ img{
 
 /* Change the color of links on hover */
 .topnav a:hover {
-  background-color: #ddd;
+  background-color:#9050f7;
   color: black;
 }
 
@@ -63,35 +50,3 @@ img{
   color: white;
 }
 
-#container {
-  text-align: center;
-  margin: 0;
-}
-
-#qr-canvas {
-  margin: auto;
-  width: calc(100% - 20px);
-  max-width: 400px;
-}
-
-#btn-scan-qr {
-  cursor: pointer;
-}
-
-#btn-scan-qr img {
-  height: 10em;
-  padding: 15px;
-  margin: 15px;
-  background: white;
-}
-
-#qr-result {
-  font-size: 1.2em;
-  margin: 20px auto;
-  padding: 20px;
-  max-width: 700px;
-  background-color: white;
-}
- button  {
-   text-align: center;
- }
