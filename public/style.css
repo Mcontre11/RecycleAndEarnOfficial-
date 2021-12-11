@@ -5,6 +5,7 @@ body{
 }
 
 
+
 img{
   height: 300px;
 }
@@ -14,12 +15,11 @@ img{
   padding: 200px;
   margin-top: -7%;
   text-align: center;
-  background-image: url(img/theLogo.png);
+  background-image: url(img/LOGOrmeDesign.png);
   background-repeat: no-repeat;
   width: 100%;
   color: white;
   font-size: 30px;
-  
 }
 
 /* Add a black background color to the top navigation */
