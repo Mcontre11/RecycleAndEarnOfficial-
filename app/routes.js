@@ -22,7 +22,6 @@ module.exports = function (app, passport, db) {
   });
 
  app.get('/board', function(req, res){
-
    db.collection('codes').find({barCode: /./}).toArray((err,result) => 
    {
     console.log(result)

@@ -12,7 +12,7 @@ background: radial-gradient(circle, rgba(194,247,103,1) 46%, rgba(194,247,103,1)
 
 p{
   text-align: center;
-  font-size: 20px;
+  font-size: 30px;
 }
 ol{
   font-size: 20px;
@@ -41,13 +41,14 @@ margin-left: 300px;
 }
 .myQuote{
   font-family: 'Libre Barcode 39 Text', cursive;
-  font-size: 40px;
+  font-size: 50px;
+ 
 }
 ul{
 font-size: 30px;
 border:3px solid;
 width: 50%;
-margin-left: 40px;
+margin-left: 25%;
 list-style: none;
 box-shadow: 5px 5px 4px black;
 background-color:rgb(233, 233, 225);
@@ -55,5 +56,6 @@ background-color:rgb(233, 233, 225);
 }
 #phrase{
   font-size: 30px;
+  font-weight: bold;
   margin-left:600px;
 }

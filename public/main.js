@@ -10,7 +10,7 @@ var config = {
 
  
 };
-//points
+//once QRcode and Barcode are processed for points
 function sendDeposit(){
   fetch('QRcode', {
     method: 'post',
@@ -31,8 +31,7 @@ function sendDeposit(){
   })
 }
 
-//qrCode scanner 
-
+//HTML5 QR code reader. https://scanapp.org/#reader
 function onScanSuccess(decodedText, decodedResult) {
   console.log(`Code matched = ${decodedText}`, decodedResult);
   QRcode = decodedText
@@ -42,7 +41,6 @@ function onScanSuccess(decodedText, decodedResult) {
     document.getElementById('submitDeposit').style.display='block'
   }
 }
-
 
 
 function onScanFailure(error) {
@@ -60,7 +58,9 @@ var config = {
 
 };
 
-// Barcode scanner 
+// QuaggaJS is a barcode-scanner written in JavaScript 
+//https://serratus.github.io/quaggaJS/
+
 var _scannerIsRunning = false;
       function startScanner(){
         document.getElementById('submitDeposit').style.display='none'
