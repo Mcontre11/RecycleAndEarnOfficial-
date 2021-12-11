@@ -1,13 +1,7 @@
 <%- include("partials/header") %>
 
-<head>
-  <link rel="stylesheet" href="other.css">
-</head>
-  <!DOCTYPE html>
-  <html lang="en">
- 
   <head>
-
+    <link rel="stylesheet" href="other.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +18,7 @@
         height: 100%;
         width: 75%;
         margin-left: 15%;
+        min-height: 1000px;
       }
     </style>
   </head>
@@ -44,16 +39,16 @@
         timeout: 5000,
         maximumAge: 0
       };
-      // display map according to users location
+      
       function initMap() {
         function success(pos) {
           var crd = pos.coords;
 
-          // console.log('Your current position is:');
-          // console.log(`Latitude : ${crd.latitude}`);
-          // console.log(`Longitude: ${crd.longitude}`);
-          // console.log(`More or less ${crd.accuracy} meters.`);
-          // initMap0(crd.latitude, crd.longitude)
+          console.log('Your current position is:');
+          console.log(`Latitude : ${crd.latitude}`);
+          console.log(`Longitude: ${crd.longitude}`);
+          console.log(`More or less ${crd.accuracy} meters.`);
+          initMap0(crd.latitude, crd.longitude)
         }
 
         function error(err) {
@@ -62,7 +57,8 @@
 
         navigator.geolocation.getCurrentPosition(success, error, options);
       }
-      // formula for 5 mile radius search 
+      //this functon is to calc he radius 
+     
       function haversine_distance(lat1, lon1, lat2, lon2) {
       var R = 3958.8; // Radius of the Earth in miles
       var rlat1 = lat1 * (Math.PI/180); // Convert degrees to radians
@@ -73,10 +69,10 @@
       var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
       return d;
       }
-
+      // const to show radius KM to decide which locations are close enough to the user
       const radiusMiles = 5.0
      
-     //  display nearby stations 
+      // lat and lng are users lattitude and long cordinates
       function initMap0(userLat, userLng) {
         let options = {
           zoom: 11,
@@ -93,7 +89,6 @@
           })
           .then(data => {
             console.log(data)
-            // loop through to fetch location of all stations
             for (let j = 0; j < data.locations.length; j++) {
               let stationAddress = data.locations[j].address;
               let stationName = data.locations[j].QRcode;
@@ -104,7 +99,7 @@
               )
                 .then(res => res.json())
                 .then(function (result) {
-                  console.log('places',result)
+                  console.log(result)
                   let locations = []
                   let lat = result.results[0].geometry.location.lat
                   let lng = result.results[0].geometry.location.lng
@@ -113,7 +108,6 @@
                   let coords = [lat, lng]
                   locations.push(coords)
                   var infowindow = new google.maps.InfoWindow();
-                  // marker used to display RME station and img for demonstration  purposes 
                   var marker, i;
                   for (i = 0; i < locations.length; i++) {
                     console.log(locations[i][0], locations[i][1])
@@ -128,7 +122,6 @@
                     google.maps.event.addListener(marker, 'click', (function (marker, i) {
                       return function () {
                         infowindow.setContent(
-                          //display images
                           `<p>${stationName}</p> <img src="/img/${stationName}.png"></img>`
                         );
                         infowindow.open(map, marker);
@@ -149,3 +142,14 @@
   
 
   </html>
+
+       
+         <!-- Footer -->
+<footer class="page-footer font-small blue">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2021 $kuh RME Copyright
+ 
+  </div>
+  <!-- Copyright -->
+    </div>
