@@ -1,7 +1,9 @@
 let barCode = ''
 let QRcode = ''
 
+// hide the "magic button" until both are scanned 
 document.getElementById('submitDeposit').style.display='none'
+//attach an event listener which will send the qrcode and barcode to the server when clicked
 document.getElementById('submitDeposit').addEventListener('click', sendDeposit)
 
 var config = { 
@@ -10,7 +12,7 @@ var config = {
 
  
 };
-//once QRcode and Barcode are processed for points
+//When both QRcode and Barcode are processed then the submit deposit button becomes available to click and once it is clicked the page re freshes with updated earned points. 
 function sendDeposit(){
   fetch('QRcode', {
     method: 'post',
@@ -36,13 +38,11 @@ function onScanSuccess(decodedText, decodedResult) {
   console.log(`Code matched = ${decodedText}`, decodedResult);
   QRcode = decodedText
   document.getElementById('scannedQRcode').innerText = decodedText
-  // if we have a qr code and the barcode then we can unhide the button to submit deposit 
+  // condition for the submit deposit to appear 
   if(QRcode && barCode){
     document.getElementById('submitDeposit').style.display='block'
   }
 }
-
-
 function onScanFailure(error) {
 }
 
@@ -57,10 +57,10 @@ var config = {
   qrbox: {width: 250, height: 250},
 
 };
-
 // QuaggaJS is a barcode-scanner written in JavaScript 
 //https://serratus.github.io/quaggaJS/
 
+//the function starts with an empty value when we start the scanner in order to tell when both the QR code and barcode are scanned.
 var _scannerIsRunning = false;
       function startScanner(){
         document.getElementById('submitDeposit').style.display='none'
@@ -102,14 +102,16 @@ var _scannerIsRunning = false;
 
           _scannerIsRunning = true;
         });
-        Quagga.onProcessed(function (result) {
-          var drawingCtx = Quagga.canvas.ctx.overlay,
-            drawingCanvas = Quagga.canvas.dom.overlay;
 
+        Quagga.onProcessed(function (result) {
+          //disregard this code please, it was a visible scanner appearing outside of the scanner container. 
+           var drawingCtx = Quagga.canvas.ctx.overlay,
+             drawingCanvas = Quagga.canvas.dom.overlay;
           if (result) {
             
           }
         });
+        // this function is the barcode processed and the conditional for the "magic button"
         Quagga.onDetected(function (result) {
           console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
           document.getElementById('scannedBarCode').innerText = result.codeResult.code
@@ -124,7 +126,6 @@ var _scannerIsRunning = false;
         });
 
         // Start/stop scanner
-
       }
       document.getElementById("btn").addEventListener("click", function () {
         if (_scannerIsRunning) {

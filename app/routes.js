@@ -22,6 +22,8 @@ module.exports = function (app, passport, db) {
   });
 
  app.get('/board', function(req, res){
+     // '/./'is a regular expression that matches any string with atleast 1 character, we are using it to tell mongoose to give any document whos barcode properry has atleast 1 character this function 
+   // the qr codes do not get affected because they dont have barcode properrty 
    db.collection('codes').find({barCode: /./}).toArray((err,result) => 
    {
     console.log(result)
@@ -30,6 +32,7 @@ module.exports = function (app, passport, db) {
     for (let i = 0; i < result.length; i++){
     const currentBarCode = result[i].barCode
     if (
+      // these conditionals add a counter of 1 each time a barcode already in the database is found and it also adds a barcode and the = 1 when it is a new barcode. 
       barCodeCount[currentBarCode] 
     ){
       barCodeCount[currentBarCode]++
@@ -44,6 +47,8 @@ module.exports = function (app, passport, db) {
     })   
    }  );
  } );
+// ^^^ WHAT I WOULD LIKE TO ADD IS A FUNCTION THAT DISPLAYS THE BRAND TO BE DISPLAYED INSTEAD OF THE BARCODE NUNBER ^^^
+
 
 //recycle station location 
 app.get('/locations', function (req, res) {
@@ -57,6 +62,7 @@ app.get('/locations', function (req, res) {
   })
 });
 
+// These are just the route names I decided to render
   app.get('/home', function (req, res) {
     res.render('home.ejs');
   });
@@ -107,9 +113,8 @@ app.get('/locations', function (req, res) {
               })
           
           })
-          
-      
     })
+     //^^^^  WHAT I WOULD LIKE TO ADD IS A FUNCTION THAT CREATES DIFFERENT POINTS ACCORDING TO THE LOCATION. EXAMPLE BEACHES CAN HAVE A HIGHER POINT SYSTEM. ^^^
 
 
   app.get('/login', function (req, res) {

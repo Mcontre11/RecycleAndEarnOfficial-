@@ -39,7 +39,7 @@
         timeout: 5000,
         maximumAge: 0
       };
-      
+      // display map using coordinates from the current users location 
       function initMap() {
         function success(pos) {
           var crd = pos.coords;
@@ -57,8 +57,8 @@
 
         navigator.geolocation.getCurrentPosition(success, error, options);
       }
-      //this functon is to calc he radius 
-     
+
+      //this functon is to calculate  the radius 
       function haversine_distance(lat1, lon1, lat2, lon2) {
       var R = 3958.8; // Radius of the Earth in miles
       var rlat1 = lat1 * (Math.PI/180); // Convert degrees to radians
@@ -69,10 +69,10 @@
       var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
       return d;
       }
-      // const to show radius KM to decide which locations are close enough to the user
+      // const to show radius of 5 miles
       const radiusMiles = 5.0
      
-      // lat and lng are users lattitude and long cordinates
+     // display the closest locations within the 5 mile radius 
       function initMap0(userLat, userLng) {
         let options = {
           zoom: 11,
@@ -89,6 +89,7 @@
           })
           .then(data => {
             console.log(data)
+            // we then fetch the locations from all the recycling centers.  These properties are in the database. 
             for (let j = 0; j < data.locations.length; j++) {
               let stationAddress = data.locations[j].address;
               let stationName = data.locations[j].QRcode;
@@ -103,11 +104,14 @@
                   let locations = []
                   let lat = result.results[0].geometry.location.lat
                   let lng = result.results[0].geometry.location.lng
+                  // here we are comparing the distance from the current user and the radius  calculation used about 
                   let howFar = haversine_distance (userLat, userLng, lat, lng)
                   if(howFar < radiusMiles){
                   let coords = [lat, lng]
                   locations.push(coords)
                   var infowindow = new google.maps.InfoWindow();
+
+                  // display rme station with pin for the user to see the nearest rme station
                   var marker, i;
                   for (i = 0; i < locations.length; i++) {
                     console.log(locations[i][0], locations[i][1])
@@ -121,6 +125,7 @@
                     });
                     google.maps.event.addListener(marker, 'click', (function (marker, i) {
                       return function () {
+                        // added a picture of the qr code and the name of the location to display the info... The qr code is here for demo day purposes ony. Idealy it would be ont he designated recycle bin. 
                         infowindow.setContent(
                           `<p>${stationName}</p> <img src="/img/${stationName}.png"></img>`
                         );
