@@ -55,8 +55,7 @@ app.get('/locations', function (req, res) {
   db.collection('locations').find().toArray((err, result) => {
       console.log(result)
       if (err) return console.log(err)
-      res.send( {
-        user: req.user,
+      res.send( 
         locations: result
     })
   })
