@@ -56,7 +56,6 @@ app.get('/locations', function (req, res) {
       console.log(result)
       if (err) return console.log(err)
       res.send( {
-        user: req.user,
         locations: result
     })
   })
