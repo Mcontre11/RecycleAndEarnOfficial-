@@ -3,7 +3,7 @@
 
 
 ## How It Was Made
-this project was made using html, css, bootstrap JS, Node.js, Express, Mongo DB
+This project was made using html, css, bootstrap JS, Node.js, Express, Mongo DB
 
 ## Lessons learned 
 Lessons learned from this project is to fully understand documentations before implementng code. I used the scanners from Quagga and Serratus. 
